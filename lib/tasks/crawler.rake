@@ -10,7 +10,7 @@ namespace :crawler do
     contacts.each do |contact|
     #   TODO: process contact
     end
-    
+
   end
 
 end
