@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725121312) do
+ActiveRecord::Schema.define(version: 20150725131048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20150725121312) do
     t.string   "context"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "lead_id"
   end
 
   add_index "contacts", ["email", "full_name"], name: "index_contacts_on_email_full_name", using: :btree
@@ -44,4 +45,5 @@ ActiveRecord::Schema.define(version: 20150725121312) do
   add_index "leads", ["email"], name: "index_leads_on_email", using: :btree
   add_index "leads", ["first_name", "last_name"], name: "index_leads_on_first_name_last_name", using: :btree
 
+  add_foreign_key "contacts", "leads"
 end
