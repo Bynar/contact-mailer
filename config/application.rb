@@ -22,5 +22,8 @@ module ContactMailerPrototype
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Mandrill API key for sending emails
+    config.mandrill_api = ENV.fetch("MANDRILL_API_KEY")
   end
 end

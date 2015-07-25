@@ -38,4 +38,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Mandrill test API key for sending test emails
+  config.mandrill_api = 'qwX7PtF6VGPrtDyFTrJSXQ'
 end
