@@ -24,6 +24,6 @@ module ContactMailerPrototype
     config.active_record.raise_in_transactional_callbacks = true
 
     # Mandrill API key for sending emails
-    config.mandrill_api = ENV.fetch("MANDRILL_API_KEY")
+    config.mandrill_api = ENV["MANDRILL_API_KEY"]
   end
 end
