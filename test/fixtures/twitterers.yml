@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  username: MyString
+  fullname: MyString
+  last_tweet_date: 2015-07-27 20:56:36
+  description: MyText
+  location: MyString
+  twitter_url: MyString
+  followers_count: 1
+  real_url: MyString
+
+two:
+  id: 1
+  username: MyString
+  fullname: MyString
+  last_tweet_date: 2015-07-27 20:56:36
+  description: MyText
+  location: MyString
+  twitter_url: MyString
+  followers_count: 1
+  real_url: MyString
