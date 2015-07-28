@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728112745) do
+ActiveRecord::Schema.define(version: 20150728112920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20150728112745) do
   add_index "contacts", ["email", "full_name"], name: "index_contacts_on_email_full_name", using: :btree
   add_index "contacts", ["email"], name: "index_contacts_on_email", using: :btree
   add_index "contacts", ["full_name"], name: "index_contacts_on_full_name", using: :btree
+  add_index "contacts", ["lead_id"], name: "index_contacts_on_lead_id", using: :btree
   add_index "contacts", ["twitterer_id"], name: "index_contacts_on_twitterer_id", using: :btree
   add_index "contacts", ["website"], name: "index_contacts_on_website", using: :btree
 
