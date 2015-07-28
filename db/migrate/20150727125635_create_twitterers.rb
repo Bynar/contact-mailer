@@ -1,7 +1,7 @@
 class CreateTwitterers < ActiveRecord::Migration
   def change
     create_table :twitterers do |t|
-      t.integer :twitter_id
+      t.column :twitter_id, :bigint
       t.string :username
       t.string :fullname, index:true
       t.datetime :last_tweet_date

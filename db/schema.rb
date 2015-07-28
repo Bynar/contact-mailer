@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20150728112920) do
   add_index "leads", ["twitterer_id"], name: "index_leads_on_twitterer_id", using: :btree
 
   create_table "twitterers", force: :cascade do |t|
-    t.integer  "twitter_id"
+    t.integer  "twitter_id",      limit: 8
     t.string   "username"
     t.string   "fullname"
     t.datetime "last_tweet_date"
@@ -60,8 +60,8 @@ ActiveRecord::Schema.define(version: 20150728112920) do
     t.string   "twitter_url"
     t.integer  "followers_count"
     t.string   "real_url"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "twitterers", ["fullname"], name: "index_twitterers_on_fullname", using: :btree
