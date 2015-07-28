@@ -9,17 +9,20 @@ namespace :twitter do
     contacts = CSV.read(file, "r:ISO-8859-1")
     contacts.slice!(0) if FIRST_ROW.include? contacts[0][0]
 
-    contacts.each do |contact|
-      Twitter.create(twitter_id: contact[0],
-                     username: contact[1],
-                     fullname: contact[2],
-                     last_tweet_date: contact[3],
-                     description: contact[4],
-                     location: contact[5],
-                     twitter_url: contact[6],
-                     followers_count: contact[7],
-                     real_url: contact[8]
-      )
-    end
+    Twitterer.create(
+      contacts.map do |contact|
+                     {
+                       twitter_id: contact[0],
+                       username: contact[1],
+                       fullname: contact[2],
+                       last_tweet_date: contact[3],
+                       description: contact[4],
+                       location: contact[5],
+                       twitter_url: contact[6],
+                       followers_count: contact[7],
+                       real_url: contact[8]
+                     }
+      end
+    )
   end
 end
