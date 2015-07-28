@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727125635) do
+ActiveRecord::Schema.define(version: 20150728110457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,10 +40,12 @@ ActiveRecord::Schema.define(version: 20150727125635) do
     t.datetime "mandrill_sent_date"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.integer  "twitterer_id"
   end
 
   add_index "leads", ["email"], name: "index_leads_on_email", using: :btree
   add_index "leads", ["first_name", "last_name"], name: "index_leads_on_first_name_last_name", using: :btree
+  add_index "leads", ["twitterer_id"], name: "index_leads_on_twitterer_id", using: :btree
 
   create_table "twitterers", force: :cascade do |t|
     t.integer  "twitter_id"
@@ -63,4 +65,5 @@ ActiveRecord::Schema.define(version: 20150727125635) do
   add_index "twitterers", ["real_url"], name: "index_twitterers_on_real_url", using: :btree
 
   add_foreign_key "contacts", "leads"
+  add_foreign_key "leads", "twitterers"
 end
