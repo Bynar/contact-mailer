@@ -4,6 +4,7 @@ namespace :twitter do
   task store: :environment do
     require 'csv'
     file = ENV["file"] || 'twitter_contacts.csv'
+    crawled_at = ENV["date"].nil? ? DateTime.now : DateTime.parse(ENV["date"])
     FIRST_ROW = %w(id username fullname last_tweet_date description location twitter_url followers_count real_url)
 
     contacts = CSV.read(file, "r:ISO-8859-1")
@@ -20,7 +21,8 @@ namespace :twitter do
                        location: contact[5],
                        twitter_url: contact[6],
                        followers_count: contact[7],
-                       real_url: contact[8]
+                       real_url: contact[8],
+                       crawled_at: crawled_at
                      }
       end
     )
