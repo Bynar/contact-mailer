@@ -8,7 +8,7 @@ namespace :contact do
     FIRST_ROW = ['Name','Website Url','e-mail','e-mail url','contact page URL']
     contacts.slice!(0) if FIRST_ROW.include? contacts[0][0]
 
-    created_at = ENV["created_date"].nil? ? File.ctime(file) : DateTime.parse(ENV["created_date"])
+    created_at = ENV["created_date"].nil? ? File.mtime(file) : DateTime.parse(ENV["created_date"])
 
     Contact.create(
       contacts.map do |contact|
