@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731051849) do
+ActiveRecord::Schema.define(version: 20150801103106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,20 +19,16 @@ ActiveRecord::Schema.define(version: 20150731051849) do
   create_table "contacts", force: :cascade do |t|
     t.string   "full_name"
     t.string   "email"
-    t.string   "website",      null: false
+    t.string   "website",    null: false
     t.string   "form"
     t.string   "context"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "lead_id"
-    t.integer  "twitterer_id"
   end
 
   add_index "contacts", ["email", "full_name"], name: "index_contacts_on_email_full_name", using: :btree
   add_index "contacts", ["email"], name: "index_contacts_on_email", using: :btree
   add_index "contacts", ["full_name"], name: "index_contacts_on_full_name", using: :btree
-  add_index "contacts", ["lead_id"], name: "index_contacts_on_lead_id", using: :btree
-  add_index "contacts", ["twitterer_id"], name: "index_contacts_on_twitterer_id", using: :btree
   add_index "contacts", ["website"], name: "index_contacts_on_website", using: :btree
 
   create_table "leads", force: :cascade do |t|
@@ -43,12 +39,10 @@ ActiveRecord::Schema.define(version: 20150731051849) do
     t.datetime "mandrill_sent_date"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.integer  "twitterer_id"
   end
 
   add_index "leads", ["email"], name: "index_leads_on_email", using: :btree
   add_index "leads", ["first_name", "last_name"], name: "index_leads_on_first_name_last_name", using: :btree
-  add_index "leads", ["twitterer_id"], name: "index_leads_on_twitterer_id", using: :btree
 
   create_table "twitterers", force: :cascade do |t|
     t.integer  "twitter_id",      limit: 8
@@ -68,7 +62,4 @@ ActiveRecord::Schema.define(version: 20150731051849) do
   add_index "twitterers", ["fullname"], name: "index_twitterers_on_fullname", using: :btree
   add_index "twitterers", ["real_url"], name: "index_twitterers_on_real_url", using: :btree
 
-  add_foreign_key "contacts", "leads"
-  add_foreign_key "contacts", "twitterers"
-  add_foreign_key "leads", "twitterers"
 end
