@@ -3,12 +3,14 @@ namespace :twitter do
   desc "store twitter contacts onto db"
   task store: :environment do
     require 'csv'
-    file = ENV["file"] || 'twitter_contacts.csv'
-    crawled_at = ENV["crawled_date"].nil? ? DateTime.now : DateTime.parse(ENV["crawled_date"])
-    created_at = ENV["created_date"].nil? ? DateTime.now : DateTime.parse(ENV["created_date"])
-    FIRST_ROW = %w(id username fullname last_tweet_date description location twitter_url followers_count real_url)
-
+    file = ENV["twitterers_file"] || 'twitter_contacts.csv'
+    results_file = ENV["contacts_file"] || 'contacts.csv'
     contacts = CSV.read(file, "r:ISO-8859-1")
+
+    crawled_at = ENV["crawled_date"].nil? ? File.ctime(results_file) : DateTime.parse(ENV["crawled_date"])
+    created_at = ENV["created_date"].nil? ? File.ctime(file) : DateTime.parse(ENV["created_date"])
+
+    FIRST_ROW = %w(id username fullname last_tweet_date description location twitter_url followers_count real_url)
     contacts.slice!(0) if FIRST_ROW.include? contacts[0][0]
 
     Twitterer.create(

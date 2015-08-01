@@ -2,7 +2,7 @@ namespace :contact do
   desc "store contacts onto db"
   task store: :environment do
     require 'csv'
-    file = ENV["file"] || 'results.csv'
+    file = ENV["contacts_file"] || 'contacts.csv'
     contacts = CSV.read(file, "r:ISO-8859-1")
 
     FIRST_ROW = ['Name','Website Url','e-mail','e-mail url','contact page URL']
