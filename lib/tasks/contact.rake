@@ -23,4 +23,17 @@ namespace :contact do
       end
     )
   end
+
+  desc "store contacts onto db"
+  task save: :environment do
+    require 'csv'
+    file = ENV["contacts_file"] || 'contacts.csv'
+    number = ENV["number"] || nil
+
+    CSV.open(file, 'ab') do |csv|
+      Contact.limit(number).each do |c| # write results
+        csv << [c.full_name, c.website,  c.email, c.context, c.form]
+      end
+    end
+  end
 end
