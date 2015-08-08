@@ -28,7 +28,7 @@ namespace :contact do
   task save: :environment do
     require 'csv'
     file = ENV["contacts_file"] || 'contacts.csv'
-    number = ENV["number"] || nil
+    number = ENV["number"].nil? ? nil : ENV["number"].to_i
 
     CSV.open(file, 'ab') do |csv|
       Contact.limit(number).each do |c| # write results
