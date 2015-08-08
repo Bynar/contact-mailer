@@ -1,20 +1,16 @@
 class Contact < ActiveRecord::Base
 
-  def first_name
-    return '' if full_name.nil?
+  scope :full_name_uniq_emails_not_in_leads,
+        -> { joins('left join leads on contacts.email = leads.email')
+                 .group("contacts.email")
+                 .having("count(leads.id)=0 and count(contacts.email) > 0")
+                 .maximum(:full_name) }
 
-    if full_name.split.count > 1
-      full_name.split[0..-2].join(' ')
-    else
-      full_name
-    end
+  def first_name
+    NameService.first_name(full_name)
   end
 
   def last_name
-    return '' if full_name.nil?
-
-    if full_name.split.count > 1
-      full_name.split.last
-    end
+    NameService.last_name(full_name)
   end
 end
