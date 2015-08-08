@@ -1,5 +1,4 @@
 class Contact < ActiveRecord::Base
-  belongs_to :lead
 
   def first_name
     return '' if full_name.nil?
