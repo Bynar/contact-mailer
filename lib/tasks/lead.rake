@@ -2,30 +2,56 @@ namespace :lead do
 
   desc "load contacts into leads"
   task generate: :environment do
-    size = ENV["size"] || 2000
+    size = (ENV["size"]|| '2000').to_i
     mandrill_template = ENV["mandrill_template"] || 'test'
 
-    Contact.select{ |c| !c.email.nil? && c.lead_id.nil? }.first(size).each do |c|
-      lead = Lead.create(
-          first_name: c.first_name,
-          last_name: c.last_name,
-          email: c.email,
-          mandrill_template: mandrill_template )
+    Lead.create(
+      Contact.full_name_uniq_emails_not_in_leads.first(size)
+          .map do |c|
+        {
+          first_name: NameService.first_name(c[1]),
+          last_name: NameService.last_name(c[1]),
+          email: c[0],
+          mandrill_template: mandrill_template
+        }
+      end
+    )
 
-      c.update_attributes(lead_id: lead.id)
+    Rake::Task['lead:save'].invoke
+  end
+
+  desc "save leads to csv"
+  task save: :environment do
+    require 'csv'
+
+    mandrill_template = ENV["mandrill_template"] || 'test'
+    file = ENV["file"] || 'leads.csv'
+
+    leads = Lead.where(mandrill_template: mandrill_template)
+
+    CSV.open(file, 'ab') do |csv|
+      leads.each do |l| # write results
+        csv << [l.first_name, l.last_name, l.email]
+      end
     end
+
   end
 
   desc "store leads onto db"
   task store: :environment do
     require 'csv'
     file = ENV["file"] || 'contacts.csv'
+    sent_date = ENV["date"].nil? ? nil : DateTime.parse(ENV["date"])
+    mandrill_template = ENV["mandrill_template"]
+    number = ENV["number"]|| nil
+
+
     contacts = CSV.read(file, "r:ISO-8859-1")
 
-    FIRST_ROW = ['Email', 'First Name', 'Last Name' ]
+    FIRST_ROW = ['First Name', 'Last Name', 'Email', 'Sent Date']
     contacts.slice!(0) if FIRST_ROW.include? contacts[0][0]
+    contacts = contacts.first(number.to_i) unless number.nil?
 
-    crawled_at = ENV["date"].nil? ? DateTime.now : DateTime.parse(ENV["date"])
 
     Lead.create(
         contacts.map do |contact|
@@ -33,8 +59,8 @@ namespace :lead do
               first_name: contact[0],
               last_name: contact[1],
               email: contact[2],
-              mandrill_template: contact[3],
-              mandrill_sent_date: contact[4] || crawled_at
+              mandrill_sent_date: contact[3].nil? ? sent_date : DateTime.parse(contact[3]),
+              mandrill_template: contact[4] || mandrill_template
           }
         end
     )
