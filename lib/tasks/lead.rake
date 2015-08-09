@@ -1,6 +1,6 @@
 namespace :lead do
 
-  desc "load contacts into leads"
+  desc "load contacts into leads table"
   task generate: :environment do
     size = (ENV["size"]|| '2000').to_i
     mandrill_template = ENV["mandrill_template"] || 'test'

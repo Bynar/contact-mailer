@@ -24,7 +24,7 @@ namespace :contact do
     )
   end
 
-  desc "store contacts onto db"
+  desc "store contacts as csv"
   task save: :environment do
     require 'csv'
     file = ENV["contacts_file"] || 'contacts.csv'
