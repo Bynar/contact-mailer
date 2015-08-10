@@ -24,7 +24,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # Use mandrill gem to handle api calls to its mail service
 gem 'mandrill'
-
+# Use anemone for crawling
+gem 'anemone'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
