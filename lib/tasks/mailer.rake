@@ -5,10 +5,9 @@ namespace :mailer do
     template = ENV["template"] || 'test'
     MAILER = MailerWorker
 
-    Lead.unsent.select{ |l| l.mandrill_template == template }.first(size).each do |l|
+    Lead.unsent.with_template(template).first(size).each do |l|
 
       MAILER.new.perform(l)
-
       l.update_attributes(mandrill_sent_date: Time.current)
     end
   end
