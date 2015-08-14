@@ -42,7 +42,7 @@ module ContactMailerPrototype
     #     :authentication       => 'plain',
     #     :enable_starttls_auto => true  }
 
-    Rails.application.config.email.sender = ENV["EMAIL_SENDER"]
+    config.email_sender = ENV["EMAIL_SENDER"]
 
   end
 end
