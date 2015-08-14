@@ -5,7 +5,7 @@ namespace :mailer do
     template = ENV["template"] || 'test'
     MAILER = MailerWorker
 
-    Lead.select{ |l| l.mandrill_template == template }.first(size).each do |l|
+    Lead.unsent.select{ |l| l.mandrill_template == template }.first(size).each do |l|
 
       MAILER.new.perform(l)
 
