@@ -25,5 +25,24 @@ module ContactMailerPrototype
 
     # Mandrill API key for sending emails
     config.mandrill_api = ENV["MANDRILL_API_KEY"]
+
+    # Sending via Local Sendmail
+    config.action_mailer.delivery_method = :sendmail
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+
+    # Sending via Direct SMTP
+    # config.action_mailer.delivery_method = :smtp
+    # config.action_mailer.smtp_settings = {
+    #     :address              => "smtp.gmail.com",
+    #     :port                 => 587,
+    #     :domain               => 'example.com',
+    #     :user_name            => '<username>',
+    #     :password             => '<password>',
+    #     :authentication       => 'plain',
+    #     :enable_starttls_auto => true  }
+
+    Rails.application.config.email.sender = ENV["EMAIL_SENDER"]
+
   end
 end
