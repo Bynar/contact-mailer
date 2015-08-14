@@ -11,6 +11,7 @@ namespace :lead do
         {
           first_name: NameService.first_name(c[1]),
           last_name: NameService.last_name(c[1]),
+          raw_email: c[0],
           email: c[0],
           mandrill_template: mandrill_template
         }

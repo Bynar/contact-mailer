@@ -1,7 +1,7 @@
 class Contact < ActiveRecord::Base
 
   scope :full_name_uniq_emails_not_in_leads,
-        -> { joins('left join leads on contacts.email = leads.email')
+        -> { joins('left join leads on contacts.email = leads.raw_email')
                  .group("contacts.email")
                  .having("count(leads.id)=0 and count(contacts.email) > 0")
                  .maximum(:full_name) }
