@@ -1,22 +1,16 @@
-require 'mandrill'
+class MailerWorker
 
-class MandrillWorker
+  LOG = "Mailerworker: ".freeze
 
-  LOG = "MandrillWorker: ".freeze
-
-  def perform(template, template_content, message)
+  def perform(lead)
     log("Sending Email")
 
-    raise ArgumentError if template.blank?
+    result = send(lead)
 
-    result = send(template, template_content, message)
-
-  rescue Mandrill::Error => e
-      err_log err_msg(e)
-      raise Exceptions::ServiceUnavailable, err_msg(e)
-  ensure
     log(result.inspect)
   end
+
+private
 
   def log(msg)
     Rails.logger.info(LOG + msg)
@@ -26,15 +20,8 @@ class MandrillWorker
     Rails.logger.error(LOG + msg)
   end
 
-  def err_msg(e)
-    "#{e.class}: #{e.message}"
-  end
-
-  def api
-    Mandrill::API.new(Rails.application.config.mandrill_api)
-  end
-
-  def send(*args)
-    api.messages.send_template(args)
+  def send(lead)
+  # Sends email to user when user is created.
+    CampaignMailer.campaign_email(lead).deliver
   end
 end

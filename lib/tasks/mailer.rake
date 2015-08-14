@@ -3,12 +3,11 @@ namespace :mailer do
   task send: :environment do
     size = ENV["size"] || 2000
     template = ENV["template"] || 'test'
-    MAILER = MandrillWorker
-    MESSAGE = MandrillService
+    MAILER = MailerWorker
 
     Lead.select{ |l| l.mandrill_template == template }.first(size).each do |l|
 
-      MAILER.new.perform(template, [], MESSAGE.message(l))
+      MAILER.new.perform(l)
 
       l.update_attributes(mandrill_sent_date: Time.current)
     end
