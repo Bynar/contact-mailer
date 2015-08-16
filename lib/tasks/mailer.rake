@@ -6,9 +6,13 @@ namespace :mailer do
     MAILER = MailerWorker
 
     Lead.unsent.with_template(template).first(size).each do |l|
-
-      MAILER.new.perform(l)
-      l.update_attributes(mandrill_sent_date: Time.current)
+      begin
+        MAILER.new.perform(l, template)
+      rescue ActionView::MissingTemplate
+        p 'template ' + template +' not found'
+      else
+        l.update_attributes(mandrill_sent_date: Time.current)
+      end
     end
   end
 

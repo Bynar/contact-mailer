@@ -2,10 +2,10 @@ class MailerWorker
 
   LOG = "Mailerworker: ".freeze
 
-  def perform(lead)
+  def perform(lead, template)
     log("Sending Email")
 
-    result = send(lead)
+    result = send(lead, template)
 
     log(result.inspect)
   end
@@ -20,8 +20,8 @@ private
     Rails.logger.error(LOG + msg)
   end
 
-  def send(lead)
-  # Sends email to user when user is created.
-    CampaignMailer.campaign_email(lead).deliver
+  def send(lead, template)
+    mail = CampaignMailer.campaign_email(lead, template)
+    mail.deliver
   end
 end

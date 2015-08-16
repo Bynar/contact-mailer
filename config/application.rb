@@ -43,6 +43,7 @@ module ContactMailerPrototype
     #     :enable_starttls_auto => true  }
 
     config.email_sender = ENV["EMAIL_SENDER"]
+    config.email_subject = ENV["EMAIL_SUBJECT"]
 
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
