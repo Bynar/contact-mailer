@@ -32,7 +32,7 @@ namespace :contact do
   end
 
   desc "store contacts as csv"
-  task save: :environment do
+  task save_with_filter: :environment do
     require 'csv'
     file = ENV["contacts_file"] || 'contacts.csv'
     filter = ENV["filter_file"] || 'filters.csv'
@@ -56,6 +56,20 @@ namespace :contact do
             csv << [pattern, email]
           end
         end
+      end
+    end
+  end
+
+  desc "store contacts as csv"
+  task save: :environment do
+    require 'csv'
+    file = ENV["contacts_file"] || 'contacts.csv'
+    number = ENV["number"].nil? ? nil : ENV["number"].to_i
+
+    CSV.open(file, 'w') do |csv|
+
+      Contact.limit(number).each do |c|
+        csv << [c.full_name, c.website,  c.email, c.context, c.form]
       end
     end
   end
