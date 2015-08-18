@@ -23,7 +23,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 # Use mandrill gem to handle api calls to its mail service
-gem 'mandrill'
+# gem 'mandrill-api'
 # Use anemone for crawling
 gem 'anemone'
 

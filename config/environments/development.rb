@@ -40,5 +40,15 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Mandrill test API key for sending test emails
-  config.mandrill_api = 'qwX7PtF6VGPrtDyFTrJSXQ'
+  # config.mandrill_api = 'qljsdA_8FGW6V5uRiY1Hrw'
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address              => "smtp.mandrillapp.com",
+      :port                 => 587,
+      # :domain               => 'perspectivo.com',
+      # :authentication       => 'plain',
+      # :enable_starttls_auto => true  }
+      :user_name            => 'stephen@bynar.io',
+      :password             => 'qljsdA_8FGW6V5uRiY1Hrw' } #test key
 end
