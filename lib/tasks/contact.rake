@@ -43,17 +43,18 @@ namespace :contact do
 
     patterns.each do |p_row|
       CSV.open(file, 'ab') do |csv|
-        Contact.limit(number)
-            .where('created_at >= ?', DateTime.parse(date))
-            .uniq.pluck(:email).each do |email| # write results
+        Contact.joins('inner join twitterers on contacts.website = twitterers.real_url')
+            .select('contacts.full_name, contacts.website, contacts.email, contacts.context, contacts.form, twitterers.followers_count')
+            .where('contacts.created_at >= ?', DateTime.parse(date))
+            .where('twitterers.followers_count < ?', 3000)
+            .where('contacts.full_name is not null').each do |r| # write results
 
           pattern = p_row[0]
 
-          if !email.nil? && !email.match(/#{pattern}/i).nil?
-            # csv << [c.full_name, c.website,  c.email, c.context, c.form]
-            garbage = email.match(/^.*%20/).to_s
-            email.sub!(garbage,'')
-            csv << [pattern, email]
+          if !r.email.nil? && !r.email.match(/#{pattern}/i).nil?
+            garbage = r.email.match(/^.*%20/).to_s
+            cleaned_email = r.email.sub(garbage,'')
+            csv << [r.full_name, r.website,  r.email, cleaned_email, r.context, r.form, r.followers_count]
           end
         end
       end
