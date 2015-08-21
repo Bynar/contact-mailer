@@ -8,6 +8,7 @@ namespace :mailer do
     Lead.unsent.with_template(template).first(size).each do |l|
       begin
         MAILER.new.perform(l, template)
+        p 'sending mail: ' + l.email.to_s
       rescue Exceptions::MailerAddressConflict  => e
         p 'cannot send mail: ' + e.message.to_s
       rescue ActionView::MissingTemplate

@@ -49,11 +49,22 @@ namespace :lead do
 
     contacts = CSV.read(file, "r:ISO-8859-1")
 
-    FIRST_ROW = ['Name', 'Website', 'Email', 'Sent Date', 'Template']
+    FIRST_ROW = ['First Name', 'Website', 'Email', 'Sent Date', 'Template']
     contacts.slice!(0) if FIRST_ROW.include? contacts[0][0]
     contacts = contacts.first(number.to_i) unless number.nil?
     contacts.each do |contact|
 
+      # lead = Lead.new(
+      #     {
+      #         first_name: contact[1],
+      #         last_name: contact[2],
+      #         raw_email: contact[3],
+      #         website: contact[4],
+      #         email:  contact[3],
+      #         mandrill_sent_date: contact[5].nil? ? sent_date : DateTime.parse(contact[5]),
+      #         mandrill_template: contact[6] || mandrill_template
+      #     }
+      # )
       lead = Lead.new(
           {
               first_name: NameService.first_name(contact[0]),
@@ -66,7 +77,9 @@ namespace :lead do
           }
       )
 
-      if Lead.where(email: lead.email).blank? && Lead.where(raw_email: lead.raw_email).blank? && Lead.where(website: lead.website).blank?
+      if Lead.where(email: lead.email).blank? &&
+          Lead.where(raw_email: lead.raw_email).blank? &&
+          ( Lead.where(website: lead.website).blank? || !lead.mandrill_sent_date.nil? )
         lead.save
       else
         p 'Leads already contains a record with that email: ' + lead.email.to_s
