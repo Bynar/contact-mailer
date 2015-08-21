@@ -12,6 +12,7 @@ namespace :lead do
           first_name: NameService.first_name(c[1]),
           last_name: NameService.last_name(c[1]),
           raw_email: c[0],
+          # TODO: need to add website
           email: c[0],
           mandrill_template: mandrill_template
         }
@@ -46,24 +47,31 @@ namespace :lead do
     mandrill_template = ENV["mandrill_template"]
     number = ENV["number"]|| nil
 
-
     contacts = CSV.read(file, "r:ISO-8859-1")
 
-    FIRST_ROW = ['First Name', 'Last Name', 'Email', 'Sent Date']
+    FIRST_ROW = ['Name', 'Website', 'Email', 'Sent Date', 'Template']
     contacts.slice!(0) if FIRST_ROW.include? contacts[0][0]
     contacts = contacts.first(number.to_i) unless number.nil?
+    contacts.each do |contact|
 
-
-    Lead.create(
-        contacts.map do |contact|
+      lead = Lead.new(
           {
-              first_name: contact[0],
-              last_name: contact[1],
-              email: contact[2],
-              mandrill_sent_date: contact[3].nil? ? sent_date : DateTime.parse(contact[3]),
-              mandrill_template: contact[4] || mandrill_template
+              first_name: NameService.first_name(contact[0]),
+              last_name: NameService.last_name(contact[0]),
+              raw_email: contact[2],
+              website: contact[1],
+              email:  contact[3].sub(contact[1].match(/^.*%20/).to_s,''),
+              # mandrill_sent_date: contact[3].nil? ? sent_date : DateTime.parse(contact[3]),
+              mandrill_template: mandrill_template
           }
-        end
-    )
+      )
+
+      if Lead.where(email: lead.email).blank? && Lead.where(raw_email: lead.raw_email).blank? && Lead.where(website: lead.website).blank?
+        lead.save
+      else
+        p 'Leads already contains a record with that email: ' + lead.email.to_s
+      end
+
+    end
   end
 end
