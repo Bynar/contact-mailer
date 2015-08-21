@@ -2,8 +2,8 @@ namespace :crawler do
   desc "Crawl twitter data"
   task crawl: :environment do
 
-    LINK_LIMIT = 20
-    CRAWL_LIMIT = 2000
+    LINK_LIMIT = ENV["link_limit"] || 20
+    CRAWL_LIMIT = ENV["crawl_limit"] || 2000
     crawled_at = DateTime.now
 
     Result.result.writer = ContactWriter
