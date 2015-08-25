@@ -10,6 +10,7 @@ namespace :crawler do
 
     Twitterer.not_crawled.limit(CRAWL_LIMIT).each do |tw|
       if tw.crawled_at.nil?
+        p 'crawling ' + tw.real_url + ' } ' + DateTime.now.to_s + ' } ' + DateTime.now.to_i.to_s
         ContactCrawler.crawl(tw.real_url, UrlCleaner.friendly(tw.real_url), nil, LINK_LIMIT, tw.fullname)
         tw.update_attributes(crawled_at: crawled_at)
       end
