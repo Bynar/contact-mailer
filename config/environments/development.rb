@@ -51,4 +51,6 @@ Rails.application.configure do
       # :enable_starttls_auto => true  }
       :user_name            => 'stephen@bynar.io',
       :password             => 'qljsdA_8FGW6V5uRiY1Hrw' } #test key
+
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

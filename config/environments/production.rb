@@ -79,4 +79,8 @@ Rails.application.configure do
 
   config.postgres_user = ENV['POSTGRES_USER'] || 'postgres'
   config.postgres_password = ENV['POSTGRES_PASSWORD'] || ''
+
+  # TODO: configure this to production server's info
+  # config.action_mailer.default_url_options = { host: 'vps15550.inmotionhosting.com', port: 3000 }
+
 end
