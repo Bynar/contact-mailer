@@ -61,11 +61,11 @@ namespace :lead do
       last_name = NameService.last_name(contact[0])
 
       raw_email = contact[2].downcase
-      # email = contact[2].downcase #for loading
-      email = raw_email.sub(contact[1].match(/^.*%20/).to_s,'')
+      email = contact[3].downcase #for loading
+      # email = raw_email.sub(contact[1].match(/^.*%20/).to_s,'')
       website = contact[1] #TODO: add downcase for all website too
-      mandrill_sent_date = contact[5].nil? ? nil : DateTime.parse(mandrill_sent_date)
-      mandrill_template = contact[6]
+      mandrill_sent_date = contact[7].nil? ? nil : DateTime.parse(mandrill_sent_date)
+      mandrill_template = contact[8]
 
 
       if Lead.where(low_email: email).blank? &&
