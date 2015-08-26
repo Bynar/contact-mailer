@@ -3,7 +3,7 @@ namespace :crawler do
   task crawl: :environment do
 
     LINK_LIMIT = ENV["link_limit"] || 20
-    CRAWL_LIMIT = ENV["crawl_limit"] || 2000
+    CRAWL_LIMIT = ENV["crawl_limit"]
     crawled_at = DateTime.now
 
     Result.result.writer = ContactWriter
