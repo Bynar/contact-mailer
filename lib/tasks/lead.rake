@@ -68,8 +68,8 @@ namespace :lead do
       mandrill_template = contact[8]
 
 
-      if Lead.where(low_email: email).blank? &&
-          Lead.where(low_raw_email: raw_email).blank? &&
+      if Lead.where(email: email).blank? &&
+          Lead.where(raw_email: raw_email).blank? &&
           ( Lead.where(website: website).blank? || !mandrill_sent_date.nil? ) #past records ok
 
         lead = Lead.create(
