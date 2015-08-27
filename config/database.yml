@@ -15,7 +15,5 @@ test:
   database: contact_mailer_test
 
 production:
-  adapter: postgresql
-  username: Rails.application.config.postgres_user
-  password: Rails.application.config.postgres_password
+  <<: *default
   database: contact_mailer_production
