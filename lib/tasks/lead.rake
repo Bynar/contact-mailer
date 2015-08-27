@@ -6,14 +6,14 @@ namespace :lead do
     mandrill_template = ENV["mandrill_template"] || 'test'
 
     Lead.create(
-      Contact.full_name_uniq_emails_not_in_leads.first(size)
+      Contact.full_name_uniq_emails_not_in_leads.first(size) # TODO: add website to scope
           .map do |c|
         {
           first_name: NameService.first_name(c[1]),
           last_name: NameService.last_name(c[1]),
-          raw_email: c[0].downcase,
-          # TODO: need to add website
-          email: c[0].downcase,
+          raw_email: c[0],
+          # TODO: add website
+          email: c[0].downcase, # TODO: clean email
           mandrill_template: mandrill_template
         }
       end
@@ -60,10 +60,10 @@ namespace :lead do
       first_name = NameService.first_name(contact[0])
       last_name = NameService.last_name(contact[0])
 
-      raw_email = contact[2].downcase
-      email = contact[3].downcase #for loading
-      # email = raw_email.sub(contact[1].match(/^.*%20/).to_s,'')
-      website = contact[1] #TODO: add downcase for all website too
+      raw_email = contact[2]
+      email = contact[3].downcase #for loading already cleaned emails
+      # email = raw_email.downcase.sub(contact[1].match(/^.*%20/).to_s,'')
+      website = contact[1]
       mandrill_sent_date = contact[7].nil? ? nil : DateTime.parse(mandrill_sent_date)
       mandrill_template = contact[8]
 
