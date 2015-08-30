@@ -51,9 +51,8 @@ namespace :contact do
 
           pattern = p_row[0]
 
-          if !r.email.nil? && !r.email.match(/#{pattern}/i).nil?
-            garbage = r.email.match(/^.*%20/).to_s
-            cleaned_email = r.email.sub(garbage,'')
+          if r.email && r.email.match(/#{pattern}/i)
+            cleaned_email = EmailCleaner.clean(r.email)
             csv << [r.full_name, r.website,  r.email, cleaned_email, r.context, r.form, r.followers_count]
           end
         end
