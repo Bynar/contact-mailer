@@ -41,67 +41,15 @@ namespace :lead do
 
   desc "store leads onto db"
   task store: :environment do
-    require 'csv'
-    reject_file = 'load_results.csv'
 
-    file = ENV["file"] || 'contacts.csv'
+    input_file = ENV["file"] || 'contacts.csv'
     default_sent_date = ENV["date"].nil? ? nil : DateTime.parse(ENV["date"])
     default_template = ENV["template"]
-    number = ENV["number"]|| nil
-    created_at = DateTime.now
+    limit = ENV["number"]|| nil
+    reject_file = ENV["reject_file"]||'load_results.csv'
+    filter_file = ENV["filter_file"] || 'reject_filter.csv'
 
-    contacts = CSV.read(file, "r:ISO-8859-1")
+    LeadService.store(input_file, reject_file, filter_file, default_sent_date, default_template, limit)
 
-    FIRST_ROW = ['First Name', 'Website', 'Email', 'Sent Date', 'Template']
-    contacts.slice!(0) if FIRST_ROW.include? contacts[0][0]
-    contacts = contacts.first(number.to_i) unless number.nil?
-    contacts.each do |contact|
-
-      first_name = NameService.first_name(contact[0])
-      last_name = NameService.last_name(contact[0])
-
-      raw_email = contact[2]
-      email = contact[3].downcase #for loading already cleaned emails
-      # email = raw_email.downcase.sub(contact[1].match(/^.*%20/).to_s,'')
-      website = contact[1]
-      mandrill_sent_date = contact[7].nil? ? nil : DateTime.parse(mandrill_sent_date)
-      mandrill_template = contact[8]
-
-
-      if Lead.where(email: email).blank? &&
-          Lead.where(raw_email: raw_email).blank? &&
-          ( Lead.where(website: website).blank? || !mandrill_sent_date.nil? ) #past records ok
-
-        lead = Lead.create(
-            {
-                first_name: first_name,
-                last_name: last_name,
-                raw_email: raw_email,
-                email:  email,
-                website: website,
-                created_at: created_at,
-                mandrill_sent_date: mandrill_sent_date || default_sent_date,
-                mandrill_template: mandrill_template || default_template
-            }
-        )
-        # lead = Lead.create(
-        #     {
-        #         # first_name: contact[1],
-        #         # last_name: contact[2],
-        #         raw_email: contact[0],
-        #         # website: contact[4],
-        #         email:  contact[0],
-        #         mandrill_sent_date:  sent_date ,
-        #         mandrill_template:  mandrill_template
-        #     }
-        # )
-      else
-        p 'Leads already contains a record with that email: ' + raw_email
-        CSV.open(reject_file, 'ab') do |csv|
-          csv << [raw_email]
-        end
-      end
-
-    end
   end
 end
