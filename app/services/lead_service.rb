@@ -37,7 +37,11 @@ class LeadService
     return false if last_name.blank? || last_name.match(/^[A-Z\s]+$/) # has all CAPS
     return false if name.match(/(one|two|three|four|five|six|seven|eight|nine)/i) # has one, two, three...
 
-    filters.each {|pattern| return false if name.match(/[^a-z]#{pattern}[^a-z]/i) }
+    filters.each do |pattern|
+      if name.split(' ').inject(false) {|r, n| r || n.match(/^#{pattern}$/i)}
+        (p "#{name} failed pattern: " + pattern.to_s and return false)
+      end
+    end
 
     name
   end
@@ -78,11 +82,11 @@ class LeadService
   end
 
   def self.passes_filters(email ,full_name, first_name, last_name, filters)
-    passes_email_filter(email)  && passes_name_filter(full_name, first_name, last_name, filters)
+    passes_email_filter(email) && passes_name_filter(full_name, first_name, last_name, filters)
   end
 
   def self.rejected(email, full_name, reject_file)
-    p 'Contact did not pass filter: ' + email + ' : ' + full_name
+    # p 'Contact did not pass filter: ' + email + ' : ' + full_name
     CSV.open(reject_file, 'ab') do |csv|
       csv << [email, full_name]
     end
