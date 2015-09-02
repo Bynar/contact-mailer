@@ -11,8 +11,8 @@ class LeadService
   end
 
   def self.process(first_name, last_name, raw_email, email, website, mandrill_sent_date, mandrill_template, default_sent_date, default_template, created_at)
-    if Lead.where(email: email).blank? &&
-        Lead.where(raw_email: raw_email).blank? &&
+    if Lead.where('lower(email) = ?', email.downcase).blank? &&
+        Lead.where('lower(raw_email) = ?', raw_email.downcase).blank? &&
         ( Lead.where(website: website).blank? || !mandrill_sent_date.nil? ) #past records ok
 
       Lead.create(
