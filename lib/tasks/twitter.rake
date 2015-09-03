@@ -56,16 +56,17 @@ namespace :twitter do
   desc "match twitterers to file of emails"
   task match: :environment do
     require 'csv'
+
     file = ENV["file"] || 'twitterers.csv'
 
-    FIRST_ROW = ['User Email', 'Link to user Twitter account']
+    FIRST_ROW = ['email', 'User Email', 'Link to user Twitter account']
     emails = CSV.read('emails.csv', "r:ISO-8859-1")
 
     emails.slice!(0) if FIRST_ROW.include? emails[0][0]
 
     CSV.open(file, 'w') do |csv|
 
-      csv << ["Email", 'Twitter ID', 'username', 'full name', 'last tweet date', 'twitter url', 'real url'] # write header
+      csv << ["Email", 'Twitter ID', 'Description', 'username', 'full name', 'last tweet date', 'twitter url', 'real url'] # write header
 
       emails.each { |columns|
 
@@ -78,6 +79,7 @@ namespace :twitter do
         csv << [ email,
                  twitterer.nil? ? nil : twitterer.attributes.slice(
                                             'twitter_id',
+                                            'description',
                                             'username',
                                             'fullname',
                                             'last_tweet_date',
