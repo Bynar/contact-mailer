@@ -52,4 +52,24 @@ namespace :lead do
     LeadService.store(input_file, reject_file, filter_file, default_sent_date, default_template, limit)
 
   end
+
+  desc "back populate leads fields with matching contacts in db"
+  task populate: :environment do
+
+    Lead.all.each do |l|
+      match = Contact.where('LOWER(email) = ?', l.raw_email.downcase).first
+      next if match.nil?
+
+      if l.raw_email != match.email
+        p "Setting email: #{l.raw_email} to #{match.email}"
+        l.raw_email = match.email
+      end
+
+      if l.website.nil?
+        p "Setting website: #{l.website} to #{match.website}"
+        l.website = match.website
+      end
+      l.save
+    end
+  end
 end
