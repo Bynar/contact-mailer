@@ -49,7 +49,7 @@ class LeadService
   def self.passes_email_filter(email)
     return false unless email.match(/^.+@/) # meets *@example.com
 
-    filters = %w(admin address admin email e-mail example abuse)
+    filters = %w(admin address admin email e-mail example abuse support customer help)
 
     filters.each {|pattern| return false if email.match(/^#{pattern}/i) }
 
