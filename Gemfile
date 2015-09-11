@@ -30,6 +30,8 @@ gem 'activeadmin', '~> 1.0.0.pre1'
 gem 'devise' # or devise
 # Use mailjet for emailing
 gem 'mailjet'
+# Use mixpanel gem for integration
+gem 'mixpanel-ruby'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
