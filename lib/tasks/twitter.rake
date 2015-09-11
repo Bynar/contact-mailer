@@ -6,20 +6,19 @@ namespace :twitter do
 
     FIRST_ROW = %w(id username fullname last_tweet_date description location twitter_url followers_count real_url)
 
-    files = Dir["/Users/Admin/pt/process/twitterers/*.csv"]
+    dir = ENV["dir"] || "."
+    files = Dir["#{dir}/*.csv"]
 
     files.each do |file|
 
       twitterers = CSV.read(file, "r:ISO-8859-1")
 
-      num = file.match(/[0-9]+/).to_s
-      # results_file = "/Users/Admin/pt/process/results/results#{num}.csv"
+      # num = file.match(/[0-9]+/).to_s #for dual loading results file
 
       date = file.match(/[0-9\-_]+\.csv/).to_s
       date[0]=''
       date.sub!('.csv', '')
 
-      # p results_file;
       p date;
 
       begin
@@ -28,7 +27,9 @@ namespace :twitter do
         created_at = DateTime.strptime(date, '%Y-%m-%d_%H_%M_%S')
       end
 
+      #for dual loading results file
       # crawled_at = ENV["crawled_date"].nil? ? File.mtime(results_file) : DateTime.parse(ENV["crawled_date"])
+
       crawled_at = ENV["crawled_date"].nil? ? nil : DateTime.parse(ENV["crawled_date"])
 
       twitterers.slice!(0) if FIRST_ROW.include? twitterers[0][0]
