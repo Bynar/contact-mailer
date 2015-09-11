@@ -83,6 +83,7 @@ GEM
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
+    excon (0.45.4)
     execjs (2.5.2)
     formtastic (3.1.3)
       actionpack (>= 3.2.13)
@@ -122,6 +123,9 @@ GEM
       activesupport (>= 3.1.0)
       rack (>= 1.4.0)
       rest-client
+    mandrill-api (1.0.53)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
     mime-types (2.6.1)
     mini_portile (0.6.2)
     minitest (5.7.0)
@@ -230,6 +234,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mailjet
+  mandrill-api
   mixpanel-ruby
   pg
   rails (= 4.2.3)

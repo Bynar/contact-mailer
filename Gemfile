@@ -32,6 +32,8 @@ gem 'devise' # or devise
 gem 'mailjet'
 # Use mixpanel gem for integration
 gem 'mixpanel-ruby'
+# Use mandrill gem for integration
+gem 'mandrill-api'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
