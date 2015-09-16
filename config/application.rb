@@ -23,25 +23,6 @@ module ContactMailerPrototype
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    # Mandrill API key for sending emails
-    # config.mandrill_api = ENV["MANDRILL_API_KEY"]
-
-    # Sending via Local Sendmail
-    # config.action_mailer.delivery_method = :sendmail
-    # config.action_mailer.perform_deliveries = true
-    # config.action_mailer.raise_delivery_errors = true
-
-    # Sending via Direct SMTP
-    config.action_mailer.delivery_method = :smtp
-      config.action_mailer.smtp_settings = {
-        :address              => "smtp.mandrillapp.com",
-        :port                 => 587,
-        # :domain               => 'perspectivo.com',
-        # :authentication       => 'plain',
-        # :enable_starttls_auto => true  }
-        :user_name            => 'stephen@bynar.io',
-        :password             => ENV["MANDRILL_API_KEY"] }
-
     config.email_sender = ENV["EMAIL_SENDER"]
     config.email_subject = ENV["EMAIL_SUBJECT"]
 
