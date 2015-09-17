@@ -9,6 +9,14 @@ ActiveAdmin.register Lead do
     scope.with_template('template2')
   end
 
+  scope :template_3 do |scope|
+    scope.with_template('template3')
+  end
+
+  scope :template_4 do |scope|
+    scope.with_template('template4')
+  end
+
   scope :twitter_accounts do |scope|
     scope.where('leads.id in (select max(leads.id) from leads
                 left join twitterers on leads.website = twitterers.real_url
