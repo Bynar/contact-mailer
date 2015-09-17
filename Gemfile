@@ -22,14 +22,14 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-# Use mandrill gem to handle api calls to its mail service
-# gem 'mandrill-api'
 # Use anemone for crawling
 gem 'anemone'
 # Use activeadmin for db admin
 gem 'activeadmin', '~> 1.0.0.pre1'
 # Use devise for access management
 gem 'devise' # or devise
+# Use mailjet for emailing
+gem 'mailjet'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
