@@ -39,15 +39,19 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-      :address              => "in-v3.mailjet.com",
-      :port                 => 587,
-      # :domain               => 'perspectivo.com',
-      # :authentication       => 'plain',
-      # :enable_starttls_auto => true  }
-      :user_name            => '1f4e4e3826c6a32850de2a86f76c1700',
-      :password             => 'test' } #test key
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #     :address              => "in-v3.mailjet.com",
+  #     :port                 => 587,
+  #     # :domain               => 'perspectivo.com',
+  #     # :authentication       => 'plain',
+  #     # :enable_starttls_auto => true  }
+  #     :user_name            => '1f4e4e3826c6a32850de2a86f76c1700',
+  #     :password             => 'test' } #test key
+
+  config.action_mailer.delivery_method = :mailjet
+  config.mailjet_api_key = '1f4e4e3826c6a32850de2a86f76c1700'
+  config.mailjet_secret_key = 'test' #test key
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
