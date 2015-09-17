@@ -54,4 +54,6 @@ Rails.application.configure do
   config.mailjet_secret_key = 'test' #test key
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.mixpanel_api = 'a6b51ecac346e4915d8f3614c281a10d' # test key
 end

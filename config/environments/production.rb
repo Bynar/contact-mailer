@@ -104,4 +104,6 @@ Rails.application.configure do
   # TODO: configure this to production server's info
   # config.action_mailer.default_url_options = { host: 'vps15550.inmotionhosting.com', port: 3000 }
 
+  config.mixpanel_api = ENV["MIXPANEL_API"]
+
 end
