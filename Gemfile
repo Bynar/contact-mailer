@@ -34,7 +34,8 @@ gem 'mailjet'
 gem 'mixpanel-ruby'
 # Use mandrill gem for integration
 gem 'mandrill-api'
-
+# Use nationbuilder gem for integration
+gem 'nationbuilder-rb', require: 'nationbuilder'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
