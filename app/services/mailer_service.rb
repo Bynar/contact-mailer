@@ -2,7 +2,7 @@ class MailerService
 
   def self.send(size, template, mailer)
 
-    tracker = Mixpanel::Tracker.new(Rails.application.config.mixpanel_api)
+    # tracker = Mixpanel::Tracker.new(Rails.application.config.mixpanel_api)
 
     Lead.unsent.with_template(template).first(size).each do |l|
       begin
@@ -14,7 +14,7 @@ class MailerService
         p 'template ' + template +' not found'
       else
         l.update_attributes(mandrill_sent_date: Time.current)
-        track(tracker, l, template)
+        # track(tracker, l, template)
       end
     end
   end
