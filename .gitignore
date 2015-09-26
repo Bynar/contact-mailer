@@ -20,3 +20,5 @@
 *.csv
 .DS_store
 *.sql
+# Ignore application configuration
+/config/application.yml
