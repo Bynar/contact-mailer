@@ -9,6 +9,8 @@ namespace :mixpanel do
     API_SECRET = ENV['API_SECRET']
     API_KEY = ENV['API_KEY']
 
+    TIMEOUT = ENV['TIMEOUT'] || 1000 # seconds
+
     puts "Sending GET request to Mixpanel API..."
     api_secret = API_SECRET
     params = {
@@ -22,7 +24,7 @@ namespace :mixpanel do
     puts "Params: #{params}"
     uri = URI.parse("http://data.mixpanel.com/api/2.0/export?#{params}&sig=#{sig}")
     req = Net::HTTP::Get.new(uri.to_s)
-    res = Net::HTTP.start(uri.host, uri.port) {|http| http.request(req) }
+    res = Net::HTTP.start(uri.host, uri.port, read_timeout: TIMEOUT) {|http| http.request(req) }
     json = "[#{res.body.gsub(/\n/, ", ")[0..-3]}]"
 
     puts "Writing CSV..."
