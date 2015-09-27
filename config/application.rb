@@ -29,5 +29,22 @@ module ContactMailerPrototype
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
+    # Sending via Direct SMTP
+    # config.action_mailer.delivery_method = :smtp
+    # config.action_mailer.smtp_settings = {
+    #     :address              => "in-v3.mailjet.com",
+    #     :port                 => 587,
+    #     # :domain               => 'perspectivo.com',
+    #     # :authentication       => 'plain',
+    #     # :enable_starttls_auto => true  }
+    #     :user_name            => '1f4e4e3826c6a32850de2a86f76c1700',
+    #     :password             => ENV["MAIL_API_KEY"] }
+
+    # Sending via Mailjet
+    config.action_mailer.delivery_method = :mailjet
+    config.mailjet_api_key = ENV["MAILJET_API"]
+    config.mailjet_secret_key = ENV["MAILJET_SECRET_KEY"]
+
+    config.mixpanel_api = ENV["MIXPANEL_API"]
   end
 end
