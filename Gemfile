@@ -33,8 +33,6 @@ gem 'anemone'
 gem 'activeadmin', '~> 1.0.0.pre1'
 # Use devise for access management
 gem 'devise' # or devise
-# Use mailjet for emailing
-gem 'mailjet'
 # Use mixpanel gem for integration
 gem 'mixpanel-ruby'
 # Use mandrill gem for integration
