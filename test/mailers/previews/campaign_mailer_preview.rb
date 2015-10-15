@@ -37,16 +37,27 @@ class CampaignMailerPreview < ActionMailer::Preview
     CampaignMailer.campaign_email(@lead, 'template6')
   end
 
-
   def template7
     @lead = Lead.new(first_name: 'tester', email: 'tester@example.com')
 
     CampaignMailer.campaign_email(@lead, 'template7')
   end
 
+  def template7L
+    @lead = Lead.new(first_name: 'tester', email: 'tester@example.com')
+
+    CampaignMailer.campaign_email(@lead, 'template7L')
+  end
+
   def template8
     @lead = Lead.new(first_name: 'tester', email: 'tester@example.com')
 
     CampaignMailer.campaign_email(@lead, 'template8')
+  end
+
+  def template8L
+    @lead = Lead.new(first_name: 'tester', email: 'tester@example.com')
+
+    CampaignMailer.campaign_email(@lead, 'template8L')
   end
 end
