@@ -1,4 +1,4 @@
 ActiveAdmin.register Twitterer do
-  scope :processing
+  scope :not_crawled
 
 end
