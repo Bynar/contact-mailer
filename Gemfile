@@ -39,6 +39,8 @@ gem 'mixpanel-ruby'
 gem 'mandrill-api'
 # Use nationbuilder gem for integration
 gem 'nationbuilder-rb', require: 'nationbuilder'
+# Use mailgun gem for integration
+gem 'mailgun-ruby', require: 'mailgun'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
