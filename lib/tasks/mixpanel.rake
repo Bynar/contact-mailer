@@ -8,16 +8,18 @@ namespace :mixpanel do
     #production
     API_SECRET = ENV['API_SECRET']
     API_KEY = ENV['API_KEY']
-
     TIMEOUT = ENV['TIMEOUT'] || 1000 # seconds
+
+    from_date = ENV['from_date'] || 1.year.ago.strftime("%Y-%m-%d")
+    to_date = ENV['to_date'] || 1.day.ago.strftime("%Y-%m-%d")
 
     puts "Sending GET request to Mixpanel API..."
     api_secret = API_SECRET
     params = {
         api_key:    API_KEY,
         expire:     Time.now.to_i + 60,
-        from_date:  1.year.ago.strftime("%Y-%m-%d"),
-        to_date:    1.day.ago.strftime("%Y-%m-%d")
+        from_date:  from_date,
+        to_date:    to_date
     }.to_query
 
     sig = Digest::MD5.hexdigest(params.gsub(/&/, "") + api_secret)
