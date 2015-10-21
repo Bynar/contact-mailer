@@ -6,6 +6,7 @@ namespace :mailgun do
     require 'uri'
     require 'cgi'
 
+    COLUMNS = %w(timestamp ip recipient recipient-domain event)
 
     #production
     API_KEY = ENV['MAILGUN_API']
@@ -16,7 +17,10 @@ namespace :mailgun do
     domain = "perspectivo.com"
     page = 0
     next_page = ''
-    headers = ''
+    headers = COLUMNS
+    CSV.open("mailgun.csv", "w") do |csv|
+      csv << headers
+    end
 
     begin
 
@@ -37,12 +41,6 @@ namespace :mailgun do
       puts "Writing CSV..."
 
       CSV.open("mailgun.csv", "ab") do |csv|
-
-        if page == 0
-          headers = results.map {|event_hash| event_hash.keys.map(&:to_s) }.flatten.uniq
-          csv << headers
-        end
-
         results.each do |event_hash|
           csv <<  headers.map { |key|
             event_hash[key].to_s
