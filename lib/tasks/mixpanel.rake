@@ -5,6 +5,8 @@ namespace :mixpanel do
     require 'csv'
     require 'json'
 
+    COLUMNS = %w(distinct_id time)
+
     #production
     API_SECRET = ENV['API_SECRET']
     API_KEY = ENV['API_KEY']
@@ -32,7 +34,7 @@ namespace :mixpanel do
     puts "Writing CSV..."
     CSV.open("mixpanel.csv", "w") do |csv|
       hash = JSON.parse(json)
-      headers = hash.map {|row| row["properties"].keys.map(&:to_s) }.flatten.uniq
+      headers = COLUMNS
       csv << ["event"] + headers
       hash.each do |event|
         csv << [event["event"]] + headers.map { |col|
