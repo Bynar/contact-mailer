@@ -3,7 +3,6 @@ namespace :mixpanel do
   task :pull => :environment do
     require 'net/http'
     require 'csv'
-    require 'json'
 
     COLUMNS = %w(distinct_id time)
 
@@ -30,10 +29,10 @@ namespace :mixpanel do
     req = Net::HTTP::Get.new(uri.to_s)
     res = Net::HTTP.start(uri.host, uri.port, read_timeout: TIMEOUT) {|http| http.request(req) }
     json = "[#{res.body.gsub(/\n/, ", ")[0..-3]}]"
+    hash = ActiveSupport::JSON.decode(json)
 
     puts "Writing CSV..."
     CSV.open("mixpanel.csv", "w") do |csv|
-      hash = JSON.parse(json)
       headers = COLUMNS
       csv << ["event"] + headers
       hash.each do |event|
