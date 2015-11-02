@@ -56,28 +56,30 @@ class LeadService
     email
   end
 
-  def self.store(input_file, reject_file, filter_file, default_sent_date, default_template, limit, created_at = DateTime.now)
+  def self.store_csv(input_file, reject_file, filter_file, default_sent_date, default_template, limit, created_at = DateTime.now)
     filters = CSV.read(filter_file, "r:ISO-8859-1").map { |row| row[0]}
 
-    contacts(input_file, limit).each do |contact|
+    contacts(input_file, limit).each { |contact| store(contact) }
 
-      full_name = contact[0]
+  end
 
-      first_name = NameService.first_name(full_name)
-      last_name = NameService.last_name(full_name)
+  def self.store(contact)
+    full_name = contact[0]
 
-      raw_email = contact[2]
-      email = EmailCleaner.clean(raw_email).downcase
-      website = contact[1]
-      mandrill_sent_date = contact[17].nil? ? nil : DateTime.parse(mandrill_sent_date)
-      mandrill_template = contact[18]
+    first_name = NameService.first_name(full_name)
+    last_name = NameService.last_name(full_name)
 
-      rejected(email, full_name, reject_file) and next unless passes_filters(email ,full_name, first_name, last_name, filters)
+    raw_email = contact[2]
+    website = contact[1]
 
-      unless process(first_name, last_name, raw_email, email, website, mandrill_sent_date, mandrill_template, default_sent_date, default_template, created_at)
-        duplicated(raw_email, reject_file)
-      end
+    email = EmailCleaner.clean(raw_email).downcase
+    mandrill_sent_date = contact[17].nil? ? nil : DateTime.parse(mandrill_sent_date)
+    mandrill_template = contact[18]
 
+    rejected(email, full_name, reject_file) and next unless passes_filters(email ,full_name, first_name, last_name, filters)
+
+    unless process(first_name, last_name, raw_email, email, website, mandrill_sent_date, mandrill_template, default_sent_date, default_template, created_at)
+      duplicated(raw_email, reject_file)
     end
   end
 

@@ -49,7 +49,7 @@ namespace :lead do
     reject_file = ENV["reject_file"]||'load_results.csv'
     filter_file = ENV["filter_file"] || 'reject_filter.csv'
 
-    LeadService.store(input_file, reject_file, filter_file, default_sent_date, default_template, limit)
+    LeadService.store_csv(input_file, reject_file, filter_file, default_sent_date, default_template, limit)
 
   end
 
