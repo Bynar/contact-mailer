@@ -3,6 +3,7 @@ class CampaignMailer < ActionMailer::Base
   SUBJECT = (Rails.application.config.email_subject || 'Invitation to Perspectivo')
   S2 = "Invitation to check out Perspectivo. It's different but it's cool."
   S3 = "Invitation to check out Perspectivo, you just might love it!"
+  S4 = "Perspectivo - have you seen it?"
 
   def campaign_email(lead, template_name)
     @lead = lead
@@ -18,6 +19,8 @@ private
       return S2
     elsif (template_name.match(/S3/))
       return S3
+    elsif (template_name.match(/S4/))
+      return S4
     else
       return SUBJECT
     end
