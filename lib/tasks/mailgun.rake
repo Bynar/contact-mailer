@@ -7,14 +7,15 @@ namespace :mailgun do
     require 'cgi'
 
     COLUMNS = %w(timestamp ip recipient recipient-domain event)
-
+    
     #production
     API_KEY = ENV['MAILGUN_API']
+    DOMAIN = ENV['domain'] || "perspectivo.com"
 
     mg_client = Mailgun::Client.new API_KEY
 
     # Define the domain you wish to query
-    domain = "perspectivo.com"
+    domain = DOMAIN
     page = 0
     next_page = ''
     headers = COLUMNS
